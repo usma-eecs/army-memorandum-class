@@ -1,77 +1,52 @@
-# Army Memorandum LaTeX Class
+# Army Memorandum LaTeX Class and Pandoc Template
 
 Provides a basic AR 25-50 memo in latex.
 
 ## Setup
 
-* Requires LuaLaTeX or XeLaTeX for font handling.
-* Install Arial font ("preferred" by AR 25-50 1-17)
+- Requires LuaLaTeX or XeLaTeX for font handling.
+- Linux: install Arial font ("preferred" by AR 25-50 1-17)
 
 Debian:
+
 ```bash
 sudo apt-get install ttf-mscorefonts-installer
 sudo fc-cache
 fc-match Arial
 ```
 
-Fedora:
-
 ## Usage
 
-See `example.tex` and (TODO) template.tex.
+See `main.tex` and `main.md`.
 
-A minimum set of declarations are required for the office-symbol, subject,
-signature block, etc. After these options, within `\begin{document}` ...
-`\end{document}`, the structure is based on an `enumerate` list. This is a major
-break from the previous version, but much better for writing, as a good LaTeX
-editor will facilitate editing the nested list. Also, I intend to tie this into
-my emacs org-mode configuration eventually to further ease writing.
+If using Markdown, please follow the [Pandoc Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown) standards.
+In particular, it is important that lists use `#.` to denote each item to avoid overriding the Army memorandum template Latex styling for lists.
 
-The basic structure looks like:
-
-```latex
-\documentclass{armymemo}
-
-\address{Organizational Name/Title}
-\address{Standardized Street Address}
-\address{CITY, STATE, 12345-1234}
-
-\author{John W. Smith}\rank{CPT}\branch{CY}\title{S-3}            % optional
-\officesymbol{ABC-DEF-GH}
-\suspensedate{12 April 2019}                                      % optional
-\signaturedate{10 April 2019}
-\memoline{MEMORANDUM FOR RECORD}
-\documentmark{UNCLASSIFIED//FOR OFFICIAL USE ONLY (EXAMPLE ONLY)} % optional
-\subject[(U) ]{The creation of memos using \LaTeX}
-\authority{BY ORDER OF THE COMMANDER}                             % optional
-
-\begin{document}
-
-\begin{enumerate}
-\item This memo is a demo.
-\item This item contains sub items.
-  \begin{enumerate}
-  \item Thing one.
-  \item Thing two.
-  \end{enumerate}
-\item Point of contact is the undersigned.
-\end{enumerate}
-
-\end{document}
-```
+A minimum set of declarations are required for the office-symbol, subject, signature block, etc.
+After these options, within `\begin{document}` ... `\end{document}`, the structure is based on an `enumerate` list.
 
 ## Compile
 
+Currently the `Makefile` compiles the `main.md` to `out.pdf`.
+TODO: build a more useful `Makefile`.
+
+### LaTeX
+
 ```bash
-latexmk -pdf -pvc -lualatex example.tex
+latexmk -pdf -pvc -lualatex main.tex
 ```
 
-## Thanks
-Thanks to @jschaf for enumitem and a better document template, also @pconwell, @kjelderg, @nelsonrg, and others.
+### Markdown
 
+```bash
+pandoc -o out.pdf --pdf-engine=xelatex --template=default.latex main.md
+```
 
------------------------------------------------------------------------------
-Copyright (c) 2011 George Allen, All rights reserved.
+---
+
+Pandoc LaTeX template copyright (c) 2020 Nathaniel Stickney.
+
+Army memorandum LaTeX class copyright (c) 2011 George Allen, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -80,8 +55,8 @@ version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc., 59 Temple
-Place, Suite 330, Boston, MA  02111-1307  USA
+Place, Suite 330, Boston, MA 02111-1307 USA
