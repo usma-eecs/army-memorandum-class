@@ -30,15 +30,30 @@
   \vspace*{\baselineskip}
   \noindent\am@authorityline\\
   \vspace*{4\baselineskip}
+  \ifthenelse{\equal{\am@cadet}{}}{
   \begin{tikzpicture}[overlay]
-    %% to draw a grid for debugging
-    % \draw[style=help lines] (0,0) grid (15,5);
     \node [align=left, anchor=west, inner sep=0, outer sep=0] at (0.5\textwidth,-10pt){% TODO BUG - why a 10pt offset? I don't know.
-      {\MakeUppercase \am@author}\\ 
+      {\MakeUppercase \am@author}\\
       \am@rank, \am@branch\\
       \am@title
     };
   \end{tikzpicture}%
+  }{
+  \begin{tikzpicture}[overlay]
+    %% to draw a grid for debugging
+    % \draw[style=help lines] (0,0) grid (15,5);
+    \node [align=left, anchor=east, inner sep=0, outer sep=0] at (0.25 \textwidth,-10pt){% TODO BUG - why a 10pt offset? I don't know.
+      {\MakeUppercase \am@cadet}\\
+      CDT, \am@company\\
+      \am@cadettitle
+    };
+    \node [align=left, anchor=west, inner sep=0, outer sep=0] at (0.5\textwidth,-10pt){% TODO BUG - why a 10pt offset? I don't know.
+      {\MakeUppercase \am@author}\\
+      \am@rank, \am@branch\\
+      \am@title
+    };
+  \end{tikzpicture}%
+  }
   \am@encls%
   \am@distro%
   \am@cf%
@@ -51,7 +66,7 @@
 %   % signatureblock
 % %  % \begin{minipage}[t]{0.49\textwidth}
 %   %   % consider changing this to an \addtosig{}
-%   %   % \am@author\\ 
+%   %   % \am@author\\
 %   %   % \am@rank, \am@branch\\
 %   %   % \am@title
 % %  % \end{minipage}
@@ -301,7 +316,9 @@
 \newcommand{\rank}[1]{\def \am@rank{#1}}\rank{}
 \newcommand{\branch}[1]{\def \am@branch{#1}}\branch{}
 \renewcommand{\title}[1]{\def \am@title{#1}}\title{}
-
+\newcommand{\cadet}[1]{\def \am@cadet{#1}}\cadet{}
+\newcommand{\cadettitle}[1]{\def \am@cadettitle{#1}}\cadettitle{}
+\newcommand{\company}[1]{\def \am@company{#1}}\company{}
 
 % add enclosures along with a total count
 \newcommand{\am@do@encl}[1]{\item #1 }
@@ -401,4 +418,3 @@
   \vspace{\baselineskip}
   \noindent\am@subject\\
 }
-
